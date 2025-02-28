@@ -10,6 +10,12 @@
         order: "{{ cluster_events_order | default('ascending') }}"
         offset: "{{ cluster_events_offset | default(0) }}"
         severities: "{{ cluster_events_severities | default(omit) }}"
+        host_ids: "{{ cluster_host_ids | default(omit) }}"
+        infra_env_id: "{{ cluster_infra_env_id | default(omit) }}"
+        deleted_hosts: "{{ cluster_deleted_hosts | default(omit) }}"
+        cluster_level: "{{ cluster_cluster_level | default(omit) }}"
+        categories: "{{ cluster_categories | default(omit) }}"
+        message: "{{ cluster_message | default(omit) }}"
       register: list_cluster_events
       when: my_cluster_id is defined
 

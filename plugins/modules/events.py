@@ -45,9 +45,37 @@ options:
         type: list
         elements: str
         choices: [ info, warning, error, critical ]
+    host_ids:
+        description: Hosts in the specified cluster to return events for.
+        required: false
+        type: list
+        elements: str
+    infra_env_id:
+        description: The infra-env to return events for.
+        required: false
+        type: string
+    deleted_hosts:
+        description: The infra-env to return events for.
+        required: false
+        type: bool
+    cluster_level:
+        description: Cluster level events flag.
+        required: false
+        type: bool
+    categories:
+        description: List of event categories.
+        required: false
+        type: list
+        elements: str
+    message:
+        description: Retrieved events message pattern.
+        required: false
+
+
 
 author:
     - Akash Gopalakrishnan (@agopalak)
+    - Michele Costa (@nocturnalastro)
 """
 
 EXAMPLES = r"""
@@ -111,7 +139,19 @@ API_VERSION = "v2"
 API_URL = f"https://api.openshift.com/api/assisted-install/{API_VERSION}"
 
 # add additional query parameters to the query_params_list
-QUERY_PARAMS_LIST = ["cluster_id", "limit", "order", "offset", "severities"]
+QUERY_PARAMS_LIST = [
+    "cluster_id",
+    "limit",
+    "order",
+    "offset",
+    "severities",
+    "host_ids",
+    "infra_env_id",
+    "deleted_hosts",
+    "cluster_level",
+    "categories",
+    "message",
+]
 
 
 def run_module():
@@ -123,6 +163,12 @@ def run_module():
         offset=dict(type="int", required=False, default=0),
         order=dict(type="str", required=False, default="ascending", choices=["ascending", "descending"]),
         severities=dict(type="list", elements="str", required=False, choices=["info", "warning", "error", "critical"]),
+        host_ids=dict(type="list", elements="str", requried=False),
+        infra_env_id=dict(type="string", requried=False),
+        deleted_hosts=dict(type="bool", requried=False),
+        cluster_level=dict(type="bool", requried=False),
+        categories=dict(type="list", elements="str", requried=False),
+        message=dict(type="str", requried=False),
     )
 
     token = os.environ.get('AI_API_TOKEN')
